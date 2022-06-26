@@ -1,0 +1,17 @@
+server:
+  port: 80
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: copy-share-wall
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/wallcopy?useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: asja
+    password: '082264'
+
+mybatis-plus:
+  mapper-locations: classpath:com/asja/corewall/mapper/xml/*.xml

@@ -1,5 +1,6 @@
 package com.asja.corewall.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
@@ -48,6 +49,7 @@ public class PictureInfo implements Serializable {
 
     private String fullImgUrlWallhaven;
 
+    @JSONField(name = "pic")
     private String smallImgUrlWallhaven;
 
 
