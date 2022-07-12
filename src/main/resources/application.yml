@@ -8,9 +8,9 @@ spring:
     name: copy-share-wall
 
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/wallcopy?useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=UTC
+    url: jdbc:mysql://101.200.202.11:3306/wallcopy?useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: asja
+    username: root
     password: '082264'
 
 mybatis-plus:

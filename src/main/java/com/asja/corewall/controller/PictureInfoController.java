@@ -12,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static com.asja.corewall.common.util.TImeUtil.*;
 
 /**
  * <p>
@@ -32,10 +35,23 @@ public class PictureInfoController {
     private IPictureInfoService pictureInfoService;
 
 
+    /**
+     *
+     * @param choice
+     * @param start
+     * @param end
+     * @param timeslice   0: 过去一周  1：过去一个月（默认）  2：过去一年   else： 历史
+     * @return
+     */
     @RequestMapping("/{choice}/{start}/{end}")
-    public String getImageList(@PathVariable int choice,@PathVariable int start,@PathVariable int end){
+    public String getImageList(@PathVariable int choice,@PathVariable int start,@PathVariable int end,
+            @RequestParam(name = "timeslice",defaultValue = "1") int timeslice
+        ){
 
         QueryWrapper<PictureInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.ge(timeslice==0,"upload_time",getTimeStringByLong(getTimeBeforeWeek()));
+        queryWrapper.ge(timeslice==1,"upload_time",getTimeStringByLong(getTimeBeforeMonth()));
+        queryWrapper.ge(timeslice==2,"upload_time",getTimeStringByLong(getTimeBeforeYear()));
         queryWrapper.orderBy(choice==0,false,"views");
         queryWrapper.orderBy(choice==1,false,"favorites");
         queryWrapper.orderBy(choice==2,false,"upload_time");
