@@ -40,18 +40,19 @@ public class PictureInfoController {
      * @param choice
      * @param start
      * @param end
-     * @param timeslice   0: 过去一周  1：过去一个月（默认）  2：过去一年   else： 历史
+     * @param timeslice   0: 过去一周  1：过去一个月  2：过去一年   3： 历史 (默认)
      * @return
      */
     @RequestMapping("/{choice}/{start}/{end}")
     public String getImageList(@PathVariable int choice,@PathVariable int start,@PathVariable int end,
-            @RequestParam(name = "timeslice",defaultValue = "1") int timeslice
+            @RequestParam(name = "timeslice",defaultValue = "3") int timeslice
         ){
 
         QueryWrapper<PictureInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.ge(timeslice==0,"upload_time",getTimeStringByLong(getTimeBeforeWeek()));
         queryWrapper.ge(timeslice==1,"upload_time",getTimeStringByLong(getTimeBeforeMonth()));
         queryWrapper.ge(timeslice==2,"upload_time",getTimeStringByLong(getTimeBeforeYear()));
+        int count = pictureInfoService.count(queryWrapper);
         queryWrapper.orderBy(choice==0,false,"views");
         queryWrapper.orderBy(choice==1,false,"favorites");
         queryWrapper.orderBy(choice==2,false,"upload_time");
@@ -60,7 +61,7 @@ public class PictureInfoController {
         List<PictureInfo> list = pictureInfoService.list(queryWrapper);
 
 
-        PictureList pictureList = new PictureList(pictureInfoService.count(),end-start>20?start+20:end+1,list);
+        PictureList pictureList = new PictureList(count,end-start>20?start+20:end+1,list);
         return JSON.toJSONString(CommonResult.success(pictureList));
 
 
