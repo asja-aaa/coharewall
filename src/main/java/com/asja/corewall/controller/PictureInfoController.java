@@ -52,6 +52,7 @@ public class PictureInfoController {
         queryWrapper.ge(timeslice==0,"upload_time",getTimeStringByLong(getTimeBeforeWeek()));
         queryWrapper.ge(timeslice==1,"upload_time",getTimeStringByLong(getTimeBeforeMonth()));
         queryWrapper.ge(timeslice==2,"upload_time",getTimeStringByLong(getTimeBeforeYear()));
+        queryWrapper.eq("category","General");
         int count = pictureInfoService.count(queryWrapper);
         queryWrapper.orderBy(choice==0,false,"views");
         queryWrapper.orderBy(choice==1,false,"favorites");
